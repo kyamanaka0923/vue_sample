@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to Vue</title>
+<!-- import CSS -->
+<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+<!-- import JavaScript -->
+<link rel="stylesheet" media="screen" href="node_modules/handsontable/dist/handsontable.full.css">
+</head>
+<body>
+<div id="app">
+		<el-row>
+		<el-col :span="4">
+		<p>Select Facilities</p>
+		<el-select multiple multiple-limit="6" collapse-tags v-model="selectedFacilities" >
+		<el-option v-for="item in option" :key="item.value" :label="item.label" :value="item.value">
+		</el-option>
+		</el-select>
+		</el-col>
+		<el-col :span="8">
+		<p>select date range</p>
+		<el-date-picker type="daterange" v-model="dateRange"></el-date-picker>
+		</el-col>
+		<el-col :span="12">
+		<el-button>View</el-button>
+		</el-col>
+		</el-row>
+		<el-tabs v-model="activeName" @tag-click="handleClick">
+		<!-- Tab A -->
+		<el-tab-pane label="設備能力" name="first">
+		<el-row>
+		<el-col :span="24">
+		<p>
+		<div id="hottable"></div>
+		</p>
+		</el-col>
+		</el-row>
+		</el-tab-pane>
+
+
+		<!-- Tab B -->
+		<el-tab-pane label="BBB" name="second">
+		<el-button 	@click="visible = true">Button</el-button>
+		<el-dialog :visible.sync="visible" title="Hello World">
+		<el-table :data="dataTableB">
+		<el-table-column label="Date" prop="date"></el-table-column>
+		<el-table-column label="Name" prop="name"></el-table-column>
+		</el-table>
+		</el-dialog>	  
+		<el-table :data="dataTableB">
+		<el-table-column label="Date" prop="date"></el-table-column>
+		<el-table-column label="Name" prop="name"></el-table-column>
+		<el-table-column label="操作">
+		<template slot-scope="scope">
+		<el-button @click="visible = true">編集</el-button>
+		</template>
+		</el-table>
+		</el-table>
+		</el-tab-pane>
+		</el-tabs>
+</div>
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script src="https://unpkg.com/element-ui/lib/umd/locale/ja.js"></script>
+<script src="node_modules/handsontable/dist/handsontable.full.js"></script>
+<script>
+ELEMENT.locale(ELEMENT.lang.ja);
+new Vue({
+		el: '#app',
+		data: function(){
+				return { 
+						visible: false,
+						activeName: 'first',
+						dataTableB: [{
+								date: '2017/11/01',
+								name: 'aaa'
+						},{
+								date: '2017/11/01',
+								name: 'bbb'
+						}],
+						dateRange: '',
+						selectedFacilities: '',
+						option: [
+								{value: 1, label: 'aaa'},
+								{value: 2, label: 'bbb'},
+								{value: 3, label: 'ccc'},
+								{value: 4, label: 'ddd'},
+								{value: 5, label: 'eee'},
+								{value: 6, label: 'fff'},
+								{value: 7, label: 'ggg'}]
+				}
+		},
+		methods: {
+				handleClick(tab, event){
+						console.log(tab, event);
+				}
+		}
+})
+
+var data=[
+		["aaa", "bbb", "ccc" ],
+		[1, 2, 3],
+		[4, 5, 6]
+];
+var container = document.getElementById('hottable');
+var hot = new Handsontable(container, {
+		data: data,
+		height: 320,
+		rowHeaders: true,
+		colHeaders: true,
+		mergeCells: [{row:0, col:0, rowspan: 3, colspan:1}]
+});
+
+</script>
+</body>
+</html>
